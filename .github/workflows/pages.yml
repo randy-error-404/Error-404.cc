@@ -46,27 +46,30 @@ jobs:
         run: |
           python3 - <<'PY'
           from pathlib import Path
+          import re
+
           pages = {'index.html': 'error-404.cc', 'en/index.html': 'Digital Hygiene'}
           css = '''\n  .global-brand-cursor{color:var(--accent);margin-left:2px;animation:global-brand-blink 1s step-end infinite;}\n  @keyframes global-brand-blink{50%{opacity:0;}}\n'''
           script_template = '''\n<script>\n(function(){\n  const el=document.getElementById('global-brand-text');\n  if(!el)return;\n  const text=el.dataset.text;\n  let i=0;\n  const speed=70;\n  function type(){\n    if(i<text.length){el.textContent+=text.charAt(i++);setTimeout(type,speed);}\n  }\n  type();\n})();\n</script>\n'''
+
           for filename, text in pages.items():
-              p=Path(filename)
-              s=p.read_text()
+              p = Path(filename)
+              s = p.read_text()
               if 'id="global-brand-text"' in s:
                   continue
-              if filename == 'index.html':
-                  old='<div class="brand"><span class="caret">&gt;</span> error-404.cc</div>'
-                  new='<div class="brand"><span class="caret">&gt;</span> <span id="global-brand-text" data-text="error-404.cc"></span><span class="global-brand-cursor">▊</span></div>'
-              else:
-                  old='<div class="brand"><span class="caret">&gt;</span> Digital Hygiene</div>'
-                  new='<div class="brand"><span class="caret">&gt;</span> <span id="global-brand-text" data-text="Digital Hygiene"></span><span class="global-brand-cursor">▊</span></div>'
-              if old not in s:
+
+              pattern = r'(<div class="brand"><span class="caret">&gt;</span>\s*)([^<]+)(</div>)'
+              match = re.search(pattern, s)
+              if not match:
                   raise SystemExit(f'Expected brand markup not found in {filename}; refusing to modify the build.')
-              s=s.replace(old,new,1)
+
+              replacement = match.group(1) + f'<span id="global-brand-text" data-text="{text}"></span><span class="global-brand-cursor">▊</span>' + match.group(3)
+              s = s[:match.start()] + replacement + s[match.end():]
+
               if '</style>' not in s or '</body>' not in s:
                   raise SystemExit(f'Expected HTML structure not found in {filename}; refusing to modify the build.')
-              s=s.replace('</style>',css+'</style>',1)
-              s=s.replace('</body>',script_template+'</body>',1)
+              s = s.replace('</style>', css + '</style>', 1)
+              s = s.replace('</body>', script_template + '</body>', 1)
               p.write_text(s)
           PY
       - name: Upload site
