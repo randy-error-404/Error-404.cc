@@ -1,2 +1,264 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>~ // sysadmin</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"><style>body{margin:0;background:#0d0c0a;color:#d8d3c4;font:15px/1.65 'IBM Plex Mono',monospace}.wrap{max-width:760px;margin:auto;padding:0 20px}.top{border-bottom:1px solid #2a2620;padding:14px 20px;display:flex;justify-content:space-between;gap:10px}.brand{color:#f2eee0;font:700 14px 'JetBrains Mono'}.brand span{color:#dba8f0}.nav a{color:#7a7568;text-decoration:none;font-size:12px}.nav a:hover{color:#dba8f0}main{padding:50px 0}.prompt{color:#dba8f0;font-size:13px}.prompt:before{content:'$ ';color:#7a5a8f}h1{font:800 34px 'JetBrains Mono';color:#f2eee0;margin:12px 0 30px}.tag{display:block;color:#dba8f0;font-size:14px;margin-top:8px}.rule{border:0;border-top:1px solid #2a2620;margin:35px 0}.box{border:1px solid #2a2620;border-left:2px solid #7a5a8f;background:#161410;padding:18px;margin:14px 0}.key{color:#dba8f0;display:inline-block;width:95px}.muted{color:#7a7568}h2{font:700 13px 'JetBrains Mono';color:#7a7568;text-transform:uppercase;letter-spacing:.12em}li{color:#7a7568;margin:5px 0}footer{border-top:1px solid #2a2620;margin-top:50px;padding:22px 0 40px;color:#7a7568;font-size:12px;text-align:center}</style></head><body><header class="top"><div class="brand"><span>&gt;</span> sysadmin@error-404.cc</div><nav class="nav"><a href="../">hub</a> · <a href="../lessons/">lessons</a></nav></header><main class="wrap"><div class="prompt">whoami</div><h1>Randy<span class="tag">Linux Systems Administrator</span></h1><div class="box"><div><span class="key">OS</span> RHEL / Linux</div><div><span class="key">Shell</span> /bin/bash</div><div><span class="key">Focus</span> systems administration</div><div><span class="key">Status</span> <span class="muted">studying RHCSA → AZ-104</span></div></div><hr class="rule"><h2># about</h2><p>My path into IT wasn't a straight line. I moved into tech in 2018, progressing from service desk work into systems administration and Linux. This site is where I keep a running account of what I'm learning and building.</p><h2># current</h2><ul><li>Linux systems administration</li><li>RHCSA preparation and practical lab work</li><li>Automation, virtualization and production-style troubleshooting</li><li>Privacy-focused self-hosting and open-source tools</li></ul></main><footer>error-404.cc · practical notes from the command line.</footer></body></html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>~ // sysadmin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0d0c0a; --bg-raised:#161410; --line:#2a2620;
+    --text:#d8d3c4; --text-dim:#7a7568; --text-bright:#f2eee0;
+    --amber:#dba8f0; --amber-dim:#7a5a8f; --amber-glow: rgba(219,168,240,0.12);
+    --mono-head:'JetBrains Mono', monospace; --mono-body:'IBM Plex Mono', monospace;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--bg);background-image:radial-gradient(ellipse at top, rgba(219,168,240,0.05), transparent 60%);color:var(--text);font-family:var(--mono-body);font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased;}
+  ::selection{ background:var(--amber); color:#0d0c0a; }
+  a{ color:var(--amber); text-decoration:none; border-bottom:1px solid var(--amber-dim); transition:border-color .15s ease, color .15s ease; }
+  a:hover{ border-color:var(--amber); color:var(--text-bright); }
+  a:focus-visible, button:focus-visible{ outline:2px solid var(--amber); outline-offset:2px; }
+  .wrap{ max-width:760px; margin:0 auto; padding:0 20px; }
+  .topbar{position:sticky;top:0;z-index:20;background:rgba(13,12,10,0.92);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);}
+  .topbar-inner{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;gap:10px;flex-wrap:wrap;max-width:760px;margin:0 auto;}
+  .brand-group{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+  .brand{font-family:var(--mono-head);font-weight:700;font-size:14px;color:var(--text-bright);letter-spacing:0.02em;}
+  .brand .caret{color:var(--amber);}
+  .brand-cursor{color:var(--amber);margin-left:2px;animation:blink 1s step-end infinite;}
+  @keyframes blink{50%{opacity:0;}}
+  .sitenav{display:flex;gap:4px;}
+  .sitenav a{font-size:11.5px;border:1px solid var(--line);border-radius:2px;padding:4px 9px;color:var(--text-dim);text-decoration:none;}
+  .sitenav a:hover{color:var(--text-bright);border-color:var(--amber-dim);}
+  .sitenav a.current{color:var(--amber);border-color:var(--amber-dim);background:var(--amber-glow);}
+  nav{display:flex;gap:4px;flex-wrap:wrap;}
+  nav button{font-family:var(--mono-body);background:transparent;border:1px solid transparent;color:var(--text-dim);font-size:13px;padding:6px 10px;cursor:pointer;border-radius:2px;transition:all .15s ease;}
+  nav button:hover{color:var(--text-bright);border-color:var(--line);}
+  nav button.active{color:var(--amber);border-color:var(--amber-dim);background:var(--amber-glow);}
+  .fetch{margin:48px auto 40px;display:flex;gap:28px;align-items:flex-start;flex-wrap:wrap;}
+  .fetch-avatar{width:96px;height:96px;border:1px solid var(--line);background:var(--bg-raised);display:flex;align-items:center;justify-content:center;color:var(--text-dim);font-size:11px;flex-shrink:0;text-align:center;line-height:1.4;}
+  .fetch-avatar img{width:100%;height:100%;object-fit:cover;display:block;}
+  .fetch-data{flex:1;min-width:240px;}
+  .fetch-row{display:flex;gap:10px;font-size:13.5px;margin-bottom:3px;}
+  .fetch-key{color:var(--amber);min-width:88px;flex-shrink:0;}
+  .fetch-key::after{content:":";}
+  .fetch-val{color:var(--text);}
+  .fetch-name{font-family:var(--mono-head);font-weight:800;font-size:26px;color:var(--text-bright);margin-bottom:14px;letter-spacing:-0.01em;}
+  .fetch-name .tag{color:var(--amber);font-weight:500;font-size:14px;display:block;margin-top:4px;}
+  .rule{border:none;border-top:1px solid var(--line);margin:36px 0;}
+  section{display:none;padding-bottom:60px;}
+  section.active{display:block;animation:fadein .25s ease;}
+  @keyframes fadein{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:none;}}
+  h2{font-family:var(--mono-head);font-size:13px;font-weight:700;color:var(--text-dim);letter-spacing:0.12em;text-transform:uppercase;margin:0 0 18px;}
+  h2::before{content:"# ";color:var(--amber-dim);}
+  p{margin:0 0 16px;color:var(--text);}
+  .muted{color:var(--text-dim);}
+  .prompt{color:var(--amber);}
+  .prompt::before{content:"$ ";color:var(--amber-dim);}
+  .now-item{border:1px solid var(--line);background:var(--bg-raised);padding:16px 18px;margin-bottom:14px;border-left:2px solid var(--amber-dim);}
+  .now-item .status{display:inline-block;font-size:11px;font-weight:600;letter-spacing:0.08em;color:var(--amber);text-transform:uppercase;margin-bottom:8px;}
+  .now-item .status::before{content:"● ";}
+  .now-item h3{margin:0 0 6px;font-family:var(--mono-head);font-size:15px;color:var(--text-bright);font-weight:600;}
+  .now-item p{margin:0;font-size:13.5px;color:var(--text-dim);}
+  .job{margin-bottom:26px;}
+  .job-head{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:4px;}
+  .job-title{color:var(--text-bright);font-weight:600;font-family:var(--mono-head);font-size:14.5px;}
+  .job-date{color:var(--text-dim);font-size:12.5px;white-space:nowrap;}
+  .job ul{margin:8px 0 0;padding-left:18px;color:var(--text-dim);font-size:13.5px;}
+  .job li{margin-bottom:4px;}
+  .career-log{margin:20px 0 8px;}
+  .career-item{display:flex;gap:16px;padding:10px 0;border-bottom:1px solid var(--line);font-size:13.5px;flex-wrap:wrap;}
+  .career-item:last-child{border-bottom:none;}
+  .career-year{font-family:var(--mono-head);color:var(--amber);min-width:92px;flex-shrink:0;font-size:12.5px;padding-top:1px;}
+  .career-main{flex:1;min-width:200px;}
+  .career-role{color:var(--text-bright);font-weight:600;}
+  .career-desc{color:var(--text-dim);display:block;margin-top:2px;}
+  .note{border:1px solid var(--line);margin-bottom:10px;background:var(--bg-raised);}
+  .note summary{list-style:none;cursor:pointer;padding:13px 16px;display:flex;align-items:center;gap:10px;font-family:var(--mono-head);font-size:13.5px;color:var(--text-bright);font-weight:600;}
+  .note summary::-webkit-details-marker{display:none;}
+  .note summary::before{content:"+";color:var(--amber);width:14px;flex-shrink:0;font-weight:700;}
+  .note[open] summary::before{content:"−";}
+  .note-body{padding:0 16px 16px 40px;color:var(--text-dim);font-size:13.5px;}
+  .note-body code{background:var(--bg);border:1px solid var(--line);color:var(--amber);padding:1px 6px;border-radius:2px;font-size:12.5px;}
+  .note-when{font-size:11px;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.06em;margin:0 0 8px;}
+  .note-when strong{color:var(--amber);font-weight:600;}
+  .cmd{display:block;background:var(--bg);border:1px solid var(--line);border-left:2px solid var(--amber-dim);color:var(--amber);padding:10px 12px;margin:0 0 12px;font-family:var(--mono-body);font-size:12.5px;line-height:1.7;white-space:pre-wrap;word-break:break-word;overflow-x:auto;border-radius:2px;}
+  .note-tip{font-size:13px;color:var(--text-dim);margin:0;}
+  .note-tip strong{color:var(--text-bright);font-weight:600;}
+  .note-tag{font-size:10.5px;color:var(--text-dim);border:1px solid var(--line);padding:1px 6px;border-radius:2px;margin-left:auto;text-transform:uppercase;letter-spacing:0.05em;}
+  .note-category{margin:34px 0 14px;}
+  .note-category:first-of-type{margin-top:8px;}
+  .note-category h3{font-family:var(--mono-head);font-size:12px;font-weight:700;color:var(--amber);letter-spacing:0.1em;text-transform:uppercase;margin:0 0 12px;padding-bottom:8px;border-bottom:1px solid var(--line);}
+  .note-filters{display:flex;gap:6px;flex-wrap:wrap;margin:16px 0 28px;}
+  .note-filters button{font-family:var(--mono-body);background:transparent;border:1px solid var(--line);color:var(--text-dim);font-size:11.5px;padding:5px 10px;cursor:pointer;border-radius:2px;transition:all .15s ease;}
+  .note-filters button:hover{color:var(--text-bright);border-color:var(--amber-dim);}
+  .note-filters button.active{color:var(--amber);border-color:var(--amber-dim);background:var(--amber-glow);}
+  .note-group.hidden{display:none;}
+  .contact-grid{display:flex;flex-direction:column;gap:10px;}
+  .contact-row{display:flex;gap:14px;font-size:14px;}
+  .contact-row .k{color:var(--text-dim);min-width:70px;}
+  footer{border-top:1px solid var(--line);padding:22px 0 40px;font-size:12px;color:var(--text-dim);text-align:center;}
+  @media (max-width:520px){.fetch{flex-direction:column;}.fetch-name{font-size:22px;}}
+</style>
+</head>
+<body>
+<div class="topbar"><div class="topbar-inner"><div class="brand-group"><div class="brand"><span class="caret">&gt;</span> <span id="brand-text"></span><span class="brand-cursor">▊</span></div><div class="sitenav"><a href="../">hub</a><a href="./" class="current">work / IT</a><a href="../en/">lessons</a></div></div><nav><button class="tab-btn active" data-tab="about">whoami</button><button class="tab-btn" data-tab="now">now</button><button class="tab-btn" data-tab="notes">notes</button><button class="tab-btn" data-tab="contact">contact</button></nav></div></div>
+<div class="wrap">
+<div class="fetch"><div class="fetch-avatar">photo.jpg</div><div class="fetch-data"><div class="fetch-name">Randy<span class="tag">Linux Systems Administrator</span></div><div class="fetch-row"><span class="fetch-key">OS</span><span class="fetch-val">RHEL (work) / Pop!_OS (personal)</span></div><div class="fetch-row"><span class="fetch-key">Uptime</span><span class="fetch-val">~4 years in production environments</span></div><div class="fetch-row"><span class="fetch-key">Shell</span><span class="fetch-val">/bin/bash</span></div><div class="fetch-row"><span class="fetch-key">Location</span><span class="fetch-val">Prague, Czech Republic — relocating to Denmark, mid-2027</span></div><div class="fetch-row"><span class="fetch-key">Status</span><span class="fetch-val">studying RHCSA → AZ-104</span></div></div></div>
+<hr class="rule">
+<section id="about" class="active"><h2>whoami</h2><p>My path into IT wasn't a straight line. I trained in hospitality, spent a decade working service roles across Europe, and only moved into tech in 2018 — service desk work led to a systems administrator role at DHL IT Services in Prague, where I started on Windows and moved into the Linux team, which is where I've stayed. I'm currently formalizing that hands-on experience with the RHCSA certification, followed by Microsoft's AZ-104 to round out the Windows/cloud side.</p><p class="muted">This site is where I keep a running account of what I'm building toward, and a small public notebook of the fixes and configs I use often enough to want written down properly.</p><h2 style="margin-top:36px;">path</h2><div class="career-log"><div class="career-item"><span class="career-year">2001–2006</span><div class="career-main"><span class="career-role">Hotel School</span><span class="career-desc">Studied hospitality management.</span></div></div><div class="career-item"><span class="career-year">2006–2016</span><div class="career-main"><span class="career-role">HORECA industry</span><span class="career-desc">A decade in hospitality &amp; service roles.</span></div></div><div class="career-item"><span class="career-year">2016</span><div class="career-main"><span class="career-role">Turin, Italy</span><span class="career-desc">Rode a 125cc motorcycle there and worked in phone-based wine sales.</span></div></div><div class="career-item"><span class="career-year">2017</span><div class="career-main"><span class="career-role">Barcelona, Spain</span><span class="career-desc">Customer service, including card-blocking support (CardStop).</span></div></div><div class="career-item"><span class="career-year">2018</span><div class="career-main"><span class="career-role">Prague, Czech Republic</span><span class="career-desc">Moved into tech — service desk, Dutch-language support.</span></div></div><div class="career-item"><span class="career-year">2021–now</span><div class="career-main"><span class="career-role">DHL IT Services, Prague</span><span class="career-desc">Service desk → Windows sysadmin → Linux sysadmin (current).</span></div></div></div><h2 style="margin-top:36px;">experience</h2><div class="job"><div class="job-head"><span class="job-title">Systems Administrator — DHL IT Services, Prague</span><span class="job-date">2021 — Current</span></div><ul><li>Administer and troubleshoot production RHEL servers, including account access, storage, networking, and service health</li><li>Manage storage infrastructure with LVM — volume expansion, swap configuration, and inode/capacity troubleshooting</li><li>Administer Veritas Cluster Server (VCS) service groups and Veritas Volume Replicator (VVR) replication health across clustered production systems</li><li>Manage user accounts, SSH key-based access, and sudo permissions across the Linux estate</li><li>Administer CUPS print services and resolve queue, driver, and connectivity issues for end users</li><li>Diagnose network and connectivity issues using firewalld, tcpdump, and DNS troubleshooting workflows</li><li>Monitor systemd services and investigate failures through journalctl and system logs</li><li>Write Bash automation for backups, housekeeping, and recurring maintenance tasks</li><li>Started in Windows systems administration before moving into the Linux team, where I've stayed since</li></ul></div><h2 style="margin-top:36px;">projects</h2><div class="now-item"><h3>Self-hosted homelab</h3><p>Running on Docker: <strong>Immich</strong> for photo management, <strong>Radicale</strong> for CalDAV/CardDAV sync, and <strong>Vaultwarden</strong> as a self-hosted password manager — infrastructure I run and maintain myself, end to end.</p></div><div class="now-item"><h3><a href="https://error-404.cc/en" target="_blank" rel="noopener">error-404.cc/en</a></h3><p>A public site I built with lessons on staying safer online, written for a general, non-technical audience.</p></div></section>
+<section id="now"><h2>currently</h2><p class="muted">No fixed deadlines below on purpose — these are in-progress commitments, not promises.</p><div class="now-item"><span class="status">In progress</span><h3>RHCSA — Red Hat Certified System Administrator</h3><p>Working through storage, networking, security, and automation fundamentals on RHEL, building toward the EX200 exam.</p></div><div class="now-item"><span class="status">Finishing this week</span><h3>AI Fluency</h3><p>Started and wrapping up this certification within the week.</p></div><div class="now-item"><span class="status">Planned next</span><h3>AZ-104 — Microsoft Azure Administrator</h3><p>Starting once RHCSA fundamentals are solid — identity, compute, storage, and networking on Azure, with a focus on Linux workloads in the cloud.</p></div><div class="now-item"><span class="status">Ongoing</span><h3>Relocating to Denmark</h3><p>Preparing a move to Denmark in 2027 and building toward roles in Linux/hybrid systems administration there.</p></div></section>
+<section id="notes"><h2>field notes</h2><p class="muted">Practical write-ups from day-to-day RHEL administration — the kind of thing worth having in one place instead of re-Googling every time.</p><div class="note-filters"><button class="filter-btn active" data-filter="all">all</button><button class="filter-btn" data-filter="access">access &amp; identity</button><button class="filter-btn" data-filter="printing">printing</button><button class="filter-btn" data-filter="storage">storage</button><button class="filter-btn" data-filter="networking">networking</button><button class="filter-btn" data-filter="services">services &amp; health</button><button class="filter-btn" data-filter="scripting">scripting &amp; automation</button><button class="filter-btn" data-filter="maintenance">maintenance &amp; security</button><button class="filter-btn" data-filter="terminal">terminal workflow</button><button class="filter-btn" data-filter="cluster">clustering</button></div>
+<div class="note-group" data-group="access"><div class="note-category"><h3>Access &amp; Identity</h3></div><details class="note"><summary>Creating a user with SSH key access <span class="note-tag">access</span></summary><div class="note-body"><p class="note-when"><strong>Use when:</strong> onboarding a new account that needs password-less login</p><pre class="cmd">useradd -m -s /bin/bash USERNAME
+chage -d 0 USERNAME                    # force password reset on first login
+
+# on the server, for the user's public key:
+chmod 700 ~/.ssh
+chmod 600 ~/.ssh/authorized_keys</pre><p class="note-tip"><strong>Gotcha:</strong> wrong permissions on <code>.ssh</code> or <code>authorized_keys</code> is the single most common reason key auth silently fails — always check permissions before assuming the key itself is wrong.</p></div></details><details class="note"><summary>Checking and locking sudo/account access <span class="note-tag">access</span></summary><div class="note-body"><p class="note-when"><strong>Use when:</strong> verifying what a user can do, or shutting off access without deleting the account</p><pre class="cmd">sudo -l
+passwd -S USERNAME
+usermod -L USERNAME
+visudo -f /etc/sudoers.d/USERNAME</pre><p class="note-tip"><strong>Gotcha:</strong> always edit sudo rules through <code>visudo</code>, never a normal editor — it validates syntax before saving, so you can't lock yourself out with a typo.</p></div></details><details class="note"><summary>ed25519 vs RSA — the FIPS gotcha <span class="note-tag">access</span></summary><div class="note-body"><p class="note-when"><strong>Use when:</strong> generating a new SSH key pair</p><pre class="cmd">ssh-keygen -t ed25519
+
+# RHEL system running in FIPS mode:
+ssh-keygen -t rsa -b 4096</pre><p class="note-tip"><strong>Gotcha:</strong> ed25519 keys are rejected outright on RHEL boxes running in FIPS mode. Check FIPS status <em>before</em> generating the key, not after a confusing auth failure.</p></div></details><details class="note"><summary>SSH config shortcuts &amp; copying keys <span class="note-tag">access</span></summary><div class="note-body"><p class="note-when"><strong>Use when:</strong> you manage several servers and don't want to type full <code>ssh -i ...</code> commands each time</p><pre class="cmd"># ~/.ssh/config
+Host server01
+    HostName server01.example.com
+    User USERNAME
+    IdentityFile ~/.ssh/server01_ed25519
+
+ssh server01
+
+ssh-copy-id -i ~/.ssh/server01_ed25519.pub USERNAME@SERVER_NAME</pre><p class="note-tip"><strong>Note:</strong> <code>ssh-copy-id</code> is the fast path, but only works while password auth is still enabled — once it's locked down you're back to manually placing the key in <code>authorized_keys</code>.</p></div></details><details class="note"><summary>Checking sshd security settings <span class="note-tag">access</span></summary><div class="note-body"><p class="note-when"><strong>Use when:</strong> auditing or troubleshooting what a server actually allows for SSH login</p><pre class="cmd">grep -Ei "PasswordAuthentication|PubkeyAuthentication|PermitRootLogin|AllowUsers|AllowGroups" \
+  /etc/ssh/sshd_config /etc/ssh/sshd_config.d/* 2>/dev/null
+
+sshd -t</pre><p class="note-tip"><strong>Gotcha:</strong> always run <code>sshd -t</code> before restarting <code>sshd</code> on a remote box, and keep a second session open — a bad config on restart can lock you out entirely.</p></div></details></div>
+<div class="note-group" data-group="printing"><div class="note-category"><h3>Printing (CUPS)</h3></div><details class="note" open><summary>Adding a network printer with CUPS <span class="note-tag">printing</span></summary><div class="note-body"><p class="note-when"><strong>Use when:</strong> setting up a new network printer queue</p><pre class="cmd">lpadmin -p OfficePrinter -E -v ipp://192.168.1.50/ipp/print -m everywhere
+lpstat -p
+lpadmin -d OfficePrinter</pre><p class="note-tip"><strong>Note:</strong> driverless IPP Everywhere is the preferred modern method — no vendor driver needed. Fall back to a PPD-based AppSocket queue (<code>socket://IP:9100</code>) only when the printer specifically requires it.</p></div></details><details class="note"><summary>Troubleshooting a driverless printer <span class="note-tag">printing</span></summary><div class="note-body"><p class="note-when"><strong>Use when:</strong> jobs show as processing but nothing prints</p><pre class="cmd">lpstat -t
+tail -f /var/log/cups/error_log</pre><p class="note-tip"><strong>Gotcha:</strong> most driverless failures trace back to the wrong PPD being assigned, or the printer dropping off mDNS — restarting <code>cups-browsed</code> often clears the second case.</p></div></details><details class="note"><summary>Managing a stuck print queue <span class="note-tag">printing</span></summary><div class="note-body"><p class="note-when"><strong>Use when:</strong> a queue needs pausing, or a job is stuck</p><pre class="cmd">cupsdisable PRINTER
+cupsreject PRINTER
+cancel JOB_ID
+cancel -a PRINTER</pre><p class="note-tip"><strong>Gotcha:</strong> <code>cancel -a</code> clears everything queued — confirm nobody else is waiting on a pending job first.</p></div></details><details class="note"><summary>Changing printer settings (tray, paper size, duplex) <span class="note-tag">printing</span></summary><div class="note-body"><p class="note-when"><strong>Use when:</strong> the default tray, paper size, or duplex mode needs changing for a queue</p><pre class="cmd">lpoptions -p PRINTER -l
+lpadmin -p PRINTER -o InputSlot=Tray1
+lpadmin -p PRINTER -o PageSize=A4
+lpadmin -p PRINTER -o Duplex=DuplexNoTumble</pre><p class="note-tip"><strong>Note:</strong> to change settings for a single print job without touching the default, use <code>lp -d PRINTER -o PageSize=A4 file.pdf</code> instead of <code>lpadmin</code>.</p></div></details><details class="note"><summary>Checking printer network connectivity <span class="note-tag">printing</span></summary><div class="note-body"><p class="note-when"><strong>Use when:</strong> a network printer is unreachable or won't accept a connection</p><pre class="cmd">ping -c 4 PRINTER_IP
+nc -vz PRINTER_IP 631
+nc -vz PRINTER_IP 9100</pre><p class="note-tip"><strong>Note:</strong> 631 is IPP, 9100 is raw AppSocket/JetDirect, 515 is old-style LPD — knowing which port responds narrows down whether it's a network issue or a queue configuration issue.</p></div></details></div>
+<div class="note-group" data-group="storage"><div class="note-category"><h3>Storage &amp; Filesystems</h3></div><details class="note"><summary>Extending an LVM logical volume <span class="note-tag">storage</span></summary><div class="note-body"><p class="note-when"><strong>Use when:</strong> a filesystem is full and the volume group has free space</p><pre class="cmd">vgs
+lvextend -r -L +10G /dev/VG_NAME/LV_NAME</pre><p class="note-tip"><strong>Note:</strong> the <code>-r</code> flag grows the filesystem automatically in the same step (XFS via <code>xfs_growfs</code>, ext4 via <code>resize2fs</code>). XFS can be grown online but never shrunk — size volumes with that in mind.</p></div></details><details class="note"><summary>Adding a new disk into an existing VG <span class="note-tag">storage</span></summary><div class="note-body"><p class="note-when"><strong>Use when:</strong> a new disk was attached and needs to join existing storage</p><pre class="cmd">lsblk
+pvcreate /dev/sdb1
+vgextend VG_NAME /dev/sdb1
+lvextend -l +100%FREE /dev/VG_NAME/LV_NAME</pre><p class="note-tip"><strong>Gotcha:</strong> misidentifying the disk in step one is the riskiest part of this entire workflow — double-check before running <code>pvcreate</code> on anything.</p></div></details><details class="note"><summary>Expanding swap with a swap file <span class="note-tag">storage</span></summary><div class="note-body"><p class="note-when"><strong>Use when:</strong> a system needs more swap without touching LVM</p><pre class="cmd">fallocate -l 4G /swapfile
+chmod 600 /swapfile
+mkswap /swapfile
+swapon /swapfile
+# then add to /etc/fstab:
+/swapfile none swap sw 0 0</pre><p class="note-tip"><strong>Note:</strong> swap masks memory pressure, it doesn't fix a leak. If usage keeps climbing, check <code>journalctl -k | grep -i "out of memory"</code> for the real cause.</p></div></details><details class="note"><summary>Diagnosing "no space left" with free disk space <span class="note-tag">storage</span></summary><div class="note-body"><p class="note-when"><strong>Use when:</strong> <code>df -h</code> shows free space but writes still fail</p><pre class="cmd">df -i
+find /path -xdev -type f | sed 's#/[^/]*$##' | sort | uniq -c | sort -n | tail</pre><p class="note-tip"><strong>Gotcha:</strong> a filesystem with millions of tiny files can exhaust its inode table long before running out of actual space. Always list candidates with <code>find ... -mtime +N -ls</code> before adding <code>-delete</code>.</p></div></details><details class="note"><summary>Mounting safely and reading /etc/fstab <span class="note-tag">storage</span></summary><div class="note-body"><p class="note-when"><strong>Use when:</strong> testing fstab changes, or a mount won't release</p><pre class="cmd">mount -a
+fuser -vm /mount/point</pre><p class="note-tip"><strong>Note:</strong> a bad fstab entry found via <code>mount -a</code> today is far better than the same entry found during a 3am reboot.</p></div></details><details class="note"><summary>Growing a disk that was resized at the hypervisor/SAN level <span class="note-tag">storage</span></summary><div class="note-body"><p class="note-when"><strong>Use when:</strong> a virtual disk or SAN LUN was expanded, but Linux still sees the old size</p><pre class="cmd">echo 1 | tee /sys/class/block/sdb/device/rescan
+lsblk
+growpart /dev/sdb 1
+pvresize /dev/sdb1</pre><p class="note-tip"><strong>Note:</strong> this is different from adding a brand-new disk — here the same disk got bigger, so the OS needs a rescan before <code>pvresize</code> will see the extra space at all.</p></div></details></div>
+<div class="note-group" data-group="networking"><div class="note-category"><h3>Networking &amp; Diagnostics</h3></div><details class="note"><summary>Setting a static IP with nmcli <span class="note-tag">networking</span></summary><div class="note-body"><p class="note-when"><strong>Use when:</strong> assigning a fixed IP to a server</p><pre class="cmd">nmcli con mod "Wired connection 1" \
+  ipv4.addresses 192.168.1.20/24 \
+  ipv4.gateway 192.168.1.1 \
+  ipv4.dns 1.1.1.1 \
+  ipv4.method manual
+
+nmcli con up "Wired connection 1"</pre><p class="note-tip"><strong>Gotcha:</strong> confirm with <code>nmcli con show</code> before bringing a connection down on a box you're remoted into — it's an easy way to lock yourself out.</p></div></details><details class="note"><summary>Opening a port through firewalld <span class="note-tag">networking</span></summary><div class="note-body"><p class="note-when"><strong>Use when:</strong> a service needs a port opened, permanently</p><pre class="cmd">firewall-cmd --add-port=8080/tcp --permanent
+firewall-cmd --reload</pre><p class="note-tip"><strong>Gotcha:</strong> forgetting <code>--reload</code> is the most common reason a "fixed" firewall rule doesn't actually take effect. Without <code>--permanent</code>, the rule vanishes on the next reload/reboot too.</p></div></details><details class="note"><summary>DNS troubleshooting flow <span class="note-tag">networking</span></summary><div class="note-body"><p class="note-when"><strong>Use when:</strong> a hostname won't resolve but you're not sure if it's DNS, hosts file, or network</p><pre class="cmd">ping -c 4 8.8.8.8
+ping -c 4 example.com
+cat /etc/resolv.conf
+dig example.com
+dig @8.8.8.8 example.com
+cat /etc/hosts</pre><p class="note-tip"><strong>Note:</strong> if ping-by-IP works but ping-by-name fails, the problem is DNS, not the network — that one comparison saves a lot of wrong-direction troubleshooting.</p></div></details><details class="note"><summary>Finding what's listening on a port <span class="note-tag">networking</span></summary><div class="note-body"><p class="note-when"><strong>Use when:</strong> a service should be listening but a client can't connect</p><pre class="cmd">ss -tulpn | grep :PORT
+lsof -i :PORT</pre><p class="note-tip"><strong>Note:</strong> confirms the service is actually bound to the port before spending time on firewall rules or network paths that were never the problem.</p></div></details><details class="note"><summary>Capturing traffic with tcpdump <span class="note-tag">networking</span></summary><div class="note-body"><p class="note-when"><strong>Use when:</strong> a connection is failing and you need to see the actual packets</p><pre class="cmd">tcpdump -nn -i INTERFACE host HOST_IP and port PORT
+
+tcpdump -nn -s 0 -i INTERFACE host HOST_IP and port PORT -w /tmp/capture.pcap
+
+tcpdump -nn -s 0 -i INTERFACE -G 60 -W 5 -w /tmp/capture-%Y%m%d-%H%M%S.pcap</pre><p class="note-tip"><strong>Reading it:</strong> repeated <code>SYN</code> with no <code>SYN-ACK</code> back means nothing's answering. A returned <code>RST</code> means something's actively rejecting the connection — two different problems that look the same from the client side.</p></div></details></div>
+<div class="note-group" data-group="services"><div class="note-category"><h3>Services &amp; System Health</h3></div><details class="note"><summary>Managing services with systemd <span class="note-tag">services</span></summary><div class="note-body"><p class="note-when"><strong>Use when:</strong> a service needs checking, restarting, or its logs reviewed</p><pre class="cmd">systemctl status SERVICE
+journalctl -u SERVICE -n 100
+systemctl restart SERVICE
+systemctl status SERVICE</pre><p class="note-tip"><strong>Note:</strong> prefer <code>reload</code> over <code>restart</code> when a service supports it — it reapplies config without a hard stop/start, which matters more than it sounds on anything user-facing.</p></div></details><details class="note"><summary>Investigating logs with journalctl <span class="note-tag">services</span></summary><div class="note-body"><p class="note-when"><strong>Use when:</strong> something broke and you don't yet know what</p><pre class="cmd">journalctl -xe
+journalctl -p err -b
+journalctl -u SERVICE --since "1 hour ago"</pre><p class="note-tip"><strong>Note:</strong> <code>-xe</code> is almost always the right first move — it adds explanations to cryptic entries, not just raw log lines.</p></div></details><details class="note"><summary>Zombie processes — what actually needs fixing <span class="note-tag">services</span></summary><div class="note-body"><p class="note-when"><strong>Use when:</strong> <code>ps</code> shows processes marked <code>Z</code> / defunct</p><pre class="cmd">ps -eo stat,pid,ppid,cmd | grep -w Z
+ps -fp PARENT_PID</pre><p class="note-tip"><strong>Gotcha:</strong> a zombie is already dead — you fix the <em>parent</em>, not the zombie. One or two is usually nothing; a steadily growing count means the parent isn't reaping its children, which is an application bug, not something memory tuning fixes.</p></div></details><details class="note"><summary>First-check command set for "something's wrong" <span class="note-tag">services</span></summary><div class="note-body"><p class="note-when"><strong>Use when:</strong> you don't know what's broken yet</p><pre class="cmd">hostnamectl
+uptime
+df -h
+free -h
+systemctl --failed
+ip a
+journalctl -xe</pre><p class="note-tip"><strong>Note:</strong> covers identity, load, disk, memory, failed units, and network in one pass — narrows down which of the "big five" is actually the problem before going deeper into any one of them.</p></div></details><details class="note"><summary>Package management basics <span class="note-tag">services</span></summary><div class="note-body"><p class="note-when"><strong>Use when:</strong> checking what's installed, or which package owns a file</p><pre class="cmd">dnf info PACKAGE_NAME
+rpm -qa | grep PACKAGE_NAME
+rpm -qf /path/to/file</pre><p class="note-tip"><strong>Note:</strong> <code>rpm -qf</code> is underused — genuinely handy when you find an unfamiliar binary or config file and need to know what put it there.</p></div></details></div>
+<div class="note-group" data-group="scripting"><div class="note-category"><h3>Scripting &amp; Automation</h3></div><details class="note"><summary>Safe Bash script starting template <span class="note-tag">scripting</span></summary><div class="note-body"><p class="note-when"><strong>Use when:</strong> starting any new script, before adding real logic</p><pre class="cmd">#!/bin/bash
+set -euo pipefail
+
+echo "Starting script..."
+# commands here
+echo "Done."</pre><p class="note-tip"><strong>Note:</strong> <code>set -e</code> exits on any failed command, <code>-u</code> errors on undefined variables, <code>-o pipefail</code> catches failures inside a pipe — without these three, a script can silently continue past a failure and do real damage downstream.</p></div></details><details class="note"><summary>Backup script template with retention <span class="note-tag">scripting</span></summary><div class="note-body"><p class="note-when"><strong>Use when:</strong> scripting a simple tar-based backup with automatic cleanup</p><pre class="cmd">#!/bin/bash
+set -euo pipefail
+
+DATE=$(date +"%Y-%m-%d_%H-%M-%S")
+BACKUP_DIR="/path/to/backups"
+SOURCE_DIR="/path/to/source"
+RETENTION_DAYS=14
+
+mkdir -p "$BACKUP_DIR"
+tar -czf "$BACKUP_DIR/backup-$DATE.tar.gz" -C "$SOURCE_DIR" .
+find "$BACKUP_DIR" -type f -name "backup-*.tar.gz" -mtime +"$RETENTION_DAYS" -delete</pre><p class="note-tip"><strong>Note:</strong> the retention cleanup line is the part people forget to add until disk usage becomes a problem — build it in from the start, not after the fact.</p></div></details><details class="note"><summary>Cron basics <span class="note-tag">scripting</span></summary><div class="note-body"><p class="note-when"><strong>Use when:</strong> scheduling a recurring script</p><pre class="cmd">crontab -e
+crontab -l
+
+0 2 * * * /path/to/script.sh &gt;&gt; /path/to/script.log 2&gt;&amp;1
+
+# 0 2 * * *    = every day at 02:00
+# */5 * * * *  = every 5 minutes
+# 0 8 * * 1    = every Monday at 08:00</pre><p class="note-tip"><strong>Note:</strong> always redirect output (<code>&gt;&gt; log 2&gt;&amp;1</code>) — a cron job that fails silently with no log is one of the most annoying things to debug later.</p></div></details><details class="note"><summary>Docker Compose day-to-day commands <span class="note-tag">scripting</span></summary><div class="note-body"><p class="note-when"><strong>Use when:</strong> managing containerized services defined in a compose file</p><pre class="cmd">docker compose up -d
+docker compose down
+docker compose logs -f
+docker compose pull &amp;&amp; docker compose up -d
+docker compose restart SERVICE_NAME</pre><p class="note-tip"><strong>Note:</strong> <code>pull</code> then <code>up -d</code> is the safe update pattern — it fetches new images first and only recreates containers once they're actually available.</p></div></details><details class="note"><summary>rsync for copies and backups <span class="note-tag">scripting</span></summary><div class="note-body"><p class="note-when"><strong>Use when:</strong> copying files locally or to a remote host, especially repeatedly</p><pre class="cmd">rsync -avh --progress SOURCE/ DESTINATION/
+rsync -avh -e ssh SOURCE/ USERNAME@SERVER:/DESTINATION/
+rsync -avh --dry-run SOURCE/ DESTINATION/</pre><p class="note-tip"><strong>Gotcha:</strong> a trailing slash on the source means "copy the contents," no trailing slash means "copy the folder itself" — easy to get backwards and end up with an extra nested directory. Always <code>--dry-run</code> first on anything you didn't write yourself.</p></div></details></div>
+<div class="note-group" data-group="maintenance"><div class="note-category"><h3>Maintenance &amp; Security</h3></div><details class="note"><summary>SELinux — the first three commands <span class="note-tag">maintenance</span></summary><div class="note-body"><p class="note-when"><strong>Use when:</strong> something is denied for no obvious permission reason</p><pre class="cmd">getenforce
+grep denied /var/log/audit/audit.log | tail
+restorecon -Rv /path/to/fix</pre><p class="note-tip"><strong>Gotcha:</strong> never leave a system in <code>setenforce 0</code> (permissive) to "fix" a problem — that disables the protection instead of fixing the actual context. Find the denial, then <code>restorecon</code> or <code>semanage fcontext</code> the correct label in.</p></div></details><details class="note"><summary>Log rotation with logrotate <span class="note-tag">maintenance</span></summary><div class="note-body"><p class="note-when"><strong>Use when:</strong> a service's logs are growing unbounded and there's no built-in rotation</p><pre class="cmd">cat /etc/logrotate.d/SERVICE_NAME
+logrotate -d /etc/logrotate.d/SERVICE_NAME
+logrotate -f /etc/logrotate.conf</pre><p class="note-tip"><strong>Note:</strong> most packaged services already ship a logrotate config — check before writing one from scratch. This is usually the actual fix for "disk filling up with logs," not manual deletion.</p></div></details><details class="note"><summary>Time sync with chrony <span class="note-tag">maintenance</span></summary><div class="note-body"><p class="note-when"><strong>Use when:</strong> clock drift is suspected — auth failures, cluster weirdness, cert errors</p><pre class="cmd">chronyc tracking
+chronyc sources -v
+timedatectl</pre><p class="note-tip"><strong>Note:</strong> clock drift is an underrated cause of weird failures — Kerberos/SSO auth and cluster heartbeats are especially sensitive to it, and the symptoms rarely look time-related at first glance.</p></div></details><details class="note"><summary>Patching safely with dnf <span class="note-tag">maintenance</span></summary><div class="note-body"><p class="note-when"><strong>Use when:</strong> applying updates, especially on anything production</p><pre class="cmd">dnf check-update
+dnf update --setopt=install_weak_deps=False PACKAGE_NAME
+needs-restarting -r</pre><p class="note-tip"><strong>Gotcha:</strong> a blanket <code>dnf update</code> on production without checking what's included first is how unrelated things break. Patch narrowly when possible, and always check <code>needs-restarting</code> afterward — a patched-but-not-rebooted kernel is still running the old, vulnerable one.</p></div></details><details class="note"><summary>Checking disk health before it fails <span class="note-tag">maintenance</span></summary><div class="note-body"><p class="note-when"><strong>Use when:</strong> proactively checking a physical disk, or investigating unexplained I/O errors</p><pre class="cmd">smartctl -a /dev/sda
+smartctl -H /dev/sda
+dmesg -T | grep -Ei "ata|scsi|i/o error"</pre><p class="note-tip"><strong>Note:</strong> SMART isn't infallible, but a failing "reallocated sector count" trending upward is one of the most reliable early-warning signs of a dying disk — worth checking before it becomes an outage.</p></div></details></div>
+<div class="note-group" data-group="terminal"><div class="note-category"><h3>Terminal Workflow</h3></div><details class="note"><summary>tmux for sessions that survive disconnects <span class="note-tag">terminal</span></summary><div class="note-body"><p class="note-when"><strong>Use when:</strong> running something long, or working over an unreliable connection</p><pre class="cmd">tmux new -s work
+# Ctrl+b, then d
+tmux attach -t work
+tmux ls</pre><p class="note-tip"><strong>Note:</strong> the habit worth building is starting anything long-running (a migration, a big rsync, a patch job) inside tmux by default — a dropped SSH connection no longer means starting over.</p></div></details><details class="note"><summary>vim — just enough to survive <span class="note-tag">terminal</span></summary><div class="note-body"><p class="note-when"><strong>Use when:</strong> editing a config file on a server with no other editor available</p><pre class="cmd">i
+Esc
+:wq
+:q!
+/searchterm</pre><p class="note-tip"><strong>Gotcha:</strong> <code>:q!</code> exists for a reason — if you're not sure what state the file is in, that's the safe exit, not closing the terminal window and hoping.</p></div></details></div>
+<div class="note-group" data-group="cluster"><div class="note-category"><h3>Enterprise Clustering (Veritas)</h3></div><details class="note"><summary>Reading Veritas cluster health <span class="note-tag">cluster</span></summary><div class="note-body"><p class="note-when"><strong>Use when:</strong> checking overall cluster and service group status</p><pre class="cmd">hastatus -sum
+hagrp -display SERVICE_GROUP</pre><p class="note-tip"><strong>Note:</strong> check whether a group is frozen (automatic actions blocked) before assuming a fault needs manual intervention.</p></div></details><details class="note"><summary>Expanding Veritas-managed storage <span class="note-tag">cluster</span></summary><div class="note-body"><p class="note-when"><strong>Use when:</strong> growing storage that's under Veritas, not plain LVM</p><pre class="cmd">vxdg list
+vxprint -g DISK_GROUP -ht
+vxassist -g DISK_GROUP growby VOLUME_NAME SIZE
+# then grow the filesystem: xfs_growfs or resize2fs, matching the fs type</pre><p class="note-tip"><strong>Gotcha:</strong> this is deliberately not a copy-paste recipe. Running plain OS LVM commands against Veritas-managed disks by mistake is one of the most common ways this goes wrong.</p></div></details><details class="note"><summary>VVR replication status &amp; RLINK in DCM mode <span class="note-tag">cluster</span></summary><div class="note-body"><p class="note-when"><strong>Use when:</strong> checking replication health, or investigating a DCM mode alert</p><pre class="cmd">vradmin -g DISK_GROUP repstatus RVG_NAME
+# healthy output shows:
+#   Data status: consistent, up-to-date
+#   Replication status: replicating (connected)
+
+# if vradmin can't connect:
+service vras-vradmind status</pre><p class="note-tip"><strong>Note:</strong> a failed VRAS daemon alongside a healthy <code>vvr_stats</code> is a known, restartable state — not a full outage.</p></div></details></div>
+<p class="muted" style="font-size:13px;margin-top:28px;">— curated from my own working notes; sanitized of hostnames, IPs, and anything environment-specific —</p></section>
+<section id="contact"><h2>contact</h2><div class="contact-grid"><div class="contact-row"><span class="k">Email</span><a href="mailto:Randyy87@proton.me">Randyy87@proton.me</a></div><div class="contact-row"><span class="k">LinkedIn</span><a href="https://www.linkedin.com/in/randy-van-de-perre-74598b28b/" target="_blank" rel="noopener">linkedin.com/in/randy-van-de-perre</a></div><div class="contact-row"><span class="k">Location</span><span class="fetch-val">Prague, CZ — moving to Denmark, 2027</span></div></div></section>
+</div>
+<footer>built with a terminal in mind — last updated <span id="date"></span></footer>
+<script>
+const buttons=document.querySelectorAll('.tab-btn');const sections=document.querySelectorAll('section');buttons.forEach(btn=>{btn.addEventListener('click',()=>{buttons.forEach(b=>b.classList.remove('active'));sections.forEach(s=>s.classList.remove('active'));btn.classList.add('active');document.getElementById(btn.dataset.tab).classList.add('active');});});document.getElementById('date').textContent=new Date().toLocaleDateString('en-GB',{year:'numeric',month:'long'});(function typewriter(){const text='Randy@localhost';const el=document.getElementById('brand-text');let i=0;const interval=setInterval(()=>{el.textContent=text.slice(0,i+1);i++;if(i>=text.length)clearInterval(interval);},90);})();const filterButtons=document.querySelectorAll('.filter-btn');const noteGroups=document.querySelectorAll('.note-group');filterButtons.forEach(btn=>{btn.addEventListener('click',()=>{filterButtons.forEach(b=>b.classList.remove('active'));btn.classList.add('active');const f=btn.dataset.filter;noteGroups.forEach(g=>{g.classList.toggle('hidden',f!=='all'&&g.dataset.group!==f);});});});
+</script>
+</body>
+</html>
