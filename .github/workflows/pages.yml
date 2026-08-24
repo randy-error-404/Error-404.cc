@@ -90,6 +90,16 @@ jobs:
           s = s.replace('</style>', '\n  .now-inline{display:block;padding-bottom:20px;}\n' + '</style>', 1)
           p.write_text(s)
           PY
+      - name: Rename Hub navigation label to Home
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          for p in Path('.').rglob('*.html'):
+              s = p.read_text()
+              updated = s.replace('>hub</a>', '>home</a>')
+              if updated != s:
+                  p.write_text(updated)
+          PY
       - name: Upload site
         uses: actions/upload-pages-artifact@v3
         with:
