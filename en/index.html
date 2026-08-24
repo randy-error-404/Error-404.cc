@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Digital Hygiene — error-404.cc</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0d0c0a; --bg-raised:#161410; --line:#2a2620;
+    --text:#d8d3c4; --text-dim:#7a7568; --text-bright:#f2eee0;
+    --accent:#dba8f0; --accent-dim:#7a5a8f; --accent-glow: rgba(219,168,240,0.12);
+    --mono-head:'JetBrains Mono', monospace; --mono-body:'IBM Plex Mono', monospace;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0; background:var(--bg);
+    background-image:radial-gradient(ellipse at top, rgba(219,168,240,0.05), transparent 60%);
+    color:var(--text); font-family:var(--mono-body); font-size:15px; line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{ background:var(--accent); color:#0d0c0a; }
+  a{ color:var(--accent); text-decoration:none; border-bottom:1px solid var(--accent-dim); }
+  a:hover{ border-color:var(--accent); color:var(--text-bright); }
+  .wrap{ max-width:720px; margin:0 auto; padding:0 20px; }
+
+  .topbar{ position:sticky; top:0; z-index:20; background:rgba(13,12,10,0.92); backdrop-filter:blur(6px); border-bottom:1px solid var(--line); }
+  .topbar-inner{ display:flex; align-items:center; justify-content:space-between; padding:14px 20px; max-width:720px; margin:0 auto; flex-wrap:wrap; gap:8px; }
+  .brand{ font-family:var(--mono-head); font-weight:700; font-size:14px; color:var(--text-bright); }
+  .brand .caret{ color:var(--accent); }
+  .sitenav{ display:flex; gap:4px; }
+  .sitenav a{ font-size:12.5px; border:1px solid var(--line); border-radius:2px; padding:5px 10px; color:var(--text-dim); }
+  .sitenav a:hover{ color:var(--text-bright); border-color:var(--accent-dim); }
+  .sitenav a.current{ color:var(--accent); border-color:var(--accent-dim); background:var(--accent-glow); }
+
+  h1{ font-family:var(--mono-head); font-size:24px; color:var(--text-bright); margin:40px 0 6px; letter-spacing:-0.01em; }
+  .subtitle{ color:var(--text-dim); font-size:14px; margin:0 0 28px; }
+  .rule{ border:none; border-top:1px solid var(--line); margin:28px 0; }
+
+  .start-box{
+    border:1px solid var(--line); background:var(--bg-raised); border-left:2px solid var(--accent-dim);
+    padding:18px 20px; margin-bottom:32px;
+  }
+  .start-box p{ margin:0 0 10px; font-size:14px; }
+  .start-box p:last-child{ margin-bottom:0; }
+
+  .lesson-menu{ display:flex; flex-direction:column; gap:6px; margin-bottom:36px; }
+  .lesson-pill{
+    display:flex; align-items:center; gap:12px;
+    border:1px solid var(--line); background:var(--bg-raised);
+    padding:12px 14px; cursor:pointer; text-align:left; width:100%;
+    font-family:var(--mono-body); color:var(--text); border-radius:2px;
+    transition:border-color .15s ease;
+  }
+  .lesson-pill:hover{ border-color:var(--accent-dim); }
+  .lesson-pill.active{ border-color:var(--accent); background:var(--accent-glow); }
+  .lesson-num{ font-family:var(--mono-head); color:var(--accent); font-weight:700; font-size:13px; flex-shrink:0; width:20px; }
+  .lesson-pill-title{ color:var(--text-bright); font-size:13.5px; font-weight:600; flex:1; }
+  .lesson-pill-sub{ color:var(--text-dim); font-size:12px; display:block; margin-top:2px; font-weight:400; }
+
+  section.lesson{ display:none; }
+  section.lesson.active{ display:block; animation:fadein .2s ease; }
+  @keyframes fadein{ from{opacity:0; transform:translateY(4px);} to{opacity:1; transform:none;} }
+
+  .lesson h2{ font-family:var(--mono-head); font-size:20px; color:var(--text-bright); margin:0 0 4px; }
+  .lesson-meta{ font-size:12px; color:var(--text-dim); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:24px; }
+
+  .pullquote{
+    font-family:var(--mono-head); font-size:15px; color:var(--accent);
+    border-left:2px solid var(--accent-dim); padding-left:16px; margin:20px 0; font-style:italic;
+  }
+  .lesson h3{ font-size:15px; color:var(--text-bright); margin:26px 0 8px; font-family:var(--mono-head); }
+  .lesson p{ margin:0 0 14px; }
+
+  .action-box{ border:1px solid var(--line); background:var(--bg-raised); border-left:2px solid var(--accent-dim); padding:16px 18px; margin:24px 0; }
+  .action-box h4{ margin:0 0 10px; font-size:12px; color:var(--accent); text-transform:uppercase; letter-spacing:0.08em; font-family:var(--mono-head); }
+  .action-box ul{ margin:0; padding-left:18px; }
+  .action-box li{ margin-bottom:6px; font-size:13.5px; color:var(--text); }
+
+  .mistake-box{ border:1px solid var(--line); padding:16px 18px; margin:20px 0; }
+  .mistake-box h4{ margin:0 0 10px; font-size:12px; color:var(--text-dim); text-transform:uppercase; letter-spacing:0.08em; font-family:var(--mono-head); }
+  .mistake-box ul{ margin:0; padding-left:18px; }
+  .mistake-box li{ margin-bottom:6px; font-size:13.5px; color:var(--text-dim); }
+
+  .related{ font-size:12.5px; color:var(--text-dim); margin-top:8px; }
+  .related strong{ color:var(--text); }
+
+  .lesson-nav{ display:flex; justify-content:space-between; margin:36px 0 20px; gap:12px; flex-wrap:wrap; }
+  .lesson-nav button{
+    font-family:var(--mono-body); background:transparent; border:1px solid var(--line);
+    color:var(--text-dim); font-size:12.5px; padding:8px 14px; cursor:pointer; border-radius:2px;
+  }
+  .lesson-nav button:hover:not(:disabled){ color:var(--text-bright); border-color:var(--accent-dim); }
+  .lesson-nav button:disabled{ opacity:0.3; cursor:default; }
+
+  footer{ border-top:1px solid var(--line); padding:22px 0 40px; font-size:12px; color:var(--text-dim); text-align:center; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="brand"><span class="caret">&gt;</span> digital-hygiene@error-404.cc</div>
+    <div class="sitenav">
+      <a href="../">hub</a>
+      <a href="../work/">work / IT</a>
+      <a href="./" class="current">lessons</a>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <h1>The beginner journey for digital hygiene</h1>
+  <p class="subtitle">Start with the basics. No shame, no complicated words, no need to fix everything in one day.</p>
+
+  <div class="start-box">
+    <p>This is a guided path. Follow the lessons in order and improve one thing at a time — this journey starts with passwords, because they're often the first weak point in a digital life.</p>
+    <p>Six lessons, covering passwords, password managers, 2FA, and email security.</p>
+  </div>
+
+  <div class="lesson-menu" id="lesson-menu">
+    <button class="lesson-pill active" data-lesson="1">
+      <span class="lesson-num">1</span>
+      <span><span class="lesson-pill-title">Why You're Not Supposed to Remember Your Passwords</span><span class="lesson-pill-sub">Understand why remembering every password is not realistic anymore.</span></span>
+    </button>
+    <button class="lesson-pill" data-lesson="2">
+      <span class="lesson-num">2</span>
+      <span><span class="lesson-pill-title">What Is a Password Manager?</span><span class="lesson-pill-sub">What it does, why it helps, and why it's not only for technical people.</span></span>
+    </button>
+    <button class="lesson-pill" data-lesson="3">
+      <span class="lesson-num">3</span>
+      <span><span class="lesson-pill-title">Choosing the Right Password Manager</span><span class="lesson-pill-sub">Simple options for iPhone, Android, older devices, and free tools.</span></span>
+    </button>
+    <button class="lesson-pill" data-lesson="4">
+      <span class="lesson-num">4</span>
+      <span><span class="lesson-pill-title">Moving Your Passwords Safely</span><span class="lesson-pill-sub">Start with the accounts that matter most, without overwhelming yourself.</span></span>
+    </button>
+    <button class="lesson-pill" data-lesson="5">
+      <span class="lesson-num">5</span>
+      <span><span class="lesson-pill-title">Two-Factor Authentication Explained</span><span class="lesson-pill-sub">Why a password plus a second step protects you much better.</span></span>
+    </button>
+    <button class="lesson-pill" data-lesson="6">
+      <span class="lesson-num">6</span>
+      <span><span class="lesson-pill-title">Securing Your Email Account</span><span class="lesson-pill-sub">Protect the account that often unlocks the rest of your digital life.</span></span>
+    </button>
+  </div>
+
+  <hr class="rule">
+
+  <!-- LESSON 1 -->
+  <section class="lesson active" id="lesson-1">
+    <h2>Why You're Not Supposed to Remember Your Passwords</h2>
+    <p class="lesson-meta">Lesson 1 of 6</p>
+    <p>If you have tried to remember every password yourself, you are not strange, lazy, or bad with technology. Almost everyone starts that way. The problem is not you. The problem is that the internet has become too big for human memory.</p>
+    <p class="pullquote">"Wait... I'm not supposed to remember them?"</p>
+    <p>For years, many people were taught that a good password is something they should remember, so they created passwords based on birthdays, names, pets, favourite places, or small changes like adding a number at the end.</p>
+    <p>That made sense when people only had a few accounts. But today one person may have accounts for email, banking, shopping, social media, streaming, government services, work, cloud storage, apps, games, travel and more. Nobody can safely remember a different strong password for every account — and that's the important part: you are not supposed to.</p>
+    <h3>Think of passwords like house keys</h3>
+    <p>Imagine you owned one hundred houses. Would you use exactly the same key for every front door? Probably not — if someone copied that one key, they could enter every house you own. Passwords work the same way: when you reuse the same password, one stolen password can unlock many different accounts.</p>
+    <h3>"But I have nothing to hide"</h3>
+    <p>Digital security is not only about hiding secrets. It's about protecting what belongs to you — your family photos, your email, your online shopping accounts, your social media, your messages, your cloud storage, your bank account. Even if there's nothing dramatic inside, these accounts still matter because they're part of your life.</p>
+    <h3>Why people reuse passwords</h3>
+    <p>Strong passwords are difficult to remember. When a website asks for uppercase letters, lowercase letters, numbers and symbols, our brain naturally looks for shortcuts. We reuse passwords, we make small changes, we choose words we already know — not because we're careless, but because we're human. The solution isn't to try harder. The solution is to use a better system.</p>
+    <h3>The cooking version</h3>
+    <p>Think about a kitchen. Good food isn't only about taste — it also needs hygiene. You wash your hands, clean the cutting board, and don't use the same dirty knife for everything. Digital hygiene works the same way. A password manager isn't there to make your life complicated. It's there to give you cleaner, safer habits without forcing you to remember everything yourself.</p>
+
+    <div class="action-box">
+      <h4>What you can do today</h4>
+      <ul>
+        <li>Stop creating new passwords that you plan to remember.</li>
+        <li>If you reuse passwords, don't panic — most people have done it.</li>
+        <li>Don't try to fix every account today.</li>
+        <li>Start by protecting your most important accounts: email, banking, phone, cloud storage and social media.</li>
+      </ul>
+    </div>
+    <div class="mistake-box">
+      <h4>Common mistakes</h4>
+      <ul>
+        <li>Using the same password on different websites.</li>
+        <li>Making tiny changes like Password1, Password2 and Password3.</li>
+        <li>Using names, birthdays, pet names or simple words.</li>
+        <li>Thinking you must remember every password yourself.</li>
+      </ul>
+    </div>
+    <p class="related"><strong>Related:</strong> Browser Passwords vs Dedicated Managers, Password Manager Comparison</p>
+  </section>
+
+  <!-- LESSON 2 -->
+  <section class="lesson" id="lesson-2">
+    <h2>What Is a Password Manager?</h2>
+    <p class="lesson-meta">Lesson 2 of 6</p>
+    <p>If Lesson 1 gave you one important idea, it was this: you are not supposed to remember every password yourself. So the next question is obvious — if I don't remember them, where do they go?</p>
+    <h3>A password manager is a secure digital safe</h3>
+    <p>Think of a password manager as a safe for your online keys. Instead of keeping jewellery or important papers inside, it stores your passwords. You unlock that safe with one strong password, often called your master password. After that, the password manager helps you create, store and fill in strong passwords for your accounts.</p>
+    <h3>Why does this help?</h3>
+    <p>Without a password manager, many people reuse the same password because it's easier to remember. With a password manager, every account can have its own strong password — you don't need to know them by heart, the password manager remembers them for you.</p>
+    <h3>Isn't it dangerous to put all passwords in one place?</h3>
+    <p>That's a fair question. A good password manager is designed for exactly this job: your vault is encrypted, which means the passwords are locked in a form that cannot simply be read by someone else. Nothing in security is perfect, but for most people a password manager is much safer than reusing the same few passwords everywhere.</p>
+    <h3>What if my phone or laptop breaks?</h3>
+    <p>This is a common worry, especially with older or second-hand devices. In most cases, your passwords aren't trapped on one device — you install the password manager again on another trusted device, sign in, and your vault becomes available again. The important part is to keep your master password and recovery information safe.</p>
+    <h3>What about public or borrowed devices?</h3>
+    <p>Be careful here. If a device isn't yours, or you don't trust it, avoid installing your password manager on it unless you really understand the risks. Older hardware that belongs to you is one thing — a public computer in a library, school, hotel or internet café is different.</p>
+
+    <div class="action-box">
+      <h4>What you can do today</h4>
+      <ul>
+        <li>Understand that a password manager is a tool, not a complicated IT system.</li>
+        <li>Don't move all your passwords yet.</li>
+        <li>Start thinking about which devices you normally use.</li>
+        <li>Think about where you'd safely keep your recovery information.</li>
+      </ul>
+    </div>
+    <div class="mistake-box">
+      <h4>Common mistakes</h4>
+      <ul>
+        <li>Thinking password managers are only for technical people.</li>
+        <li>Choosing a weak master password.</li>
+        <li>Installing your vault on devices you don't trust.</li>
+        <li>Forgetting to save recovery information.</li>
+      </ul>
+    </div>
+    <p class="related"><strong>Related:</strong> Password Manager Comparison, Browser Password Managers vs Dedicated Managers</p>
+  </section>
+
+  <!-- LESSON 3 -->
+  <section class="lesson" id="lesson-3">
+    <h2>Choosing the Right Password Manager</h2>
+    <p class="lesson-meta">Lesson 3 of 6</p>
+    <p>There is no single password manager that's perfect for everyone. The best password manager is the one you can understand, trust and actually use.</p>
+    <h3>Don't search forever for the perfect one</h3>
+    <p>It's easy to spend days comparing features, but for beginners the most important step isn't finding a perfect tool — it's building a safer habit. A simple password manager that you use is better than an advanced one that scares you away. You can always move to a more privacy-focused password manager later; first, build the habit of using unique passwords safely.</p>
+    <h3>Better than nothing is still better</h3>
+    <p>If the alternative is reusing the same weak passwords everywhere, then using Apple Passwords or Google Password Manager is still a big improvement. Some people worry that Apple or Google aren't the most privacy-respecting companies — that's a fair concern, but better than nothing is still better.</p>
+    <h3>If you only use Apple devices</h3>
+    <p>If you use an iPhone, iPad and Mac, Apple's built-in password app can be a good place to start. It's already part of the system, works well with Safari, and is much better than reusing passwords or writing everything in random notes.</p>
+    <h3>If you use different devices</h3>
+    <p>If you use a mix of Windows, Android, Linux, Mac or iPhone, choose something that works across platforms. This matters because your digital life shouldn't fall apart when you replace your phone, borrow your own old laptop, or change operating systems later.</p>
+    <h3>If you don't want to pay</h3>
+    <p>That's completely understandable. Many beginners should start with a free option first — paying for a password manager can be useful later, but it shouldn't be the thing that stops you from improving your security today.</p>
+    <h3>If you use older or recycled devices</h3>
+    <p>Older devices aren't automatically a reason to avoid password managers. If the device belongs to you and still receives security updates, a password manager can still be useful. The bigger warning is about devices you don't own or don't trust — be careful with public computers or shared machines.</p>
+
+    <div class="action-box">
+      <h4>What you can do today</h4>
+      <ul>
+        <li>Choose one password manager to try.</li>
+        <li>Install it on your main trusted device.</li>
+        <li>Create one strong master password.</li>
+        <li>Don't move all passwords yet — start slowly.</li>
+      </ul>
+    </div>
+    <div class="mistake-box">
+      <h4>Common mistakes</h4>
+      <ul>
+        <li>Searching forever instead of starting.</li>
+        <li>Choosing the most complicated tool because it looks powerful.</li>
+        <li>Assuming paid always means better.</li>
+        <li>Assuming free always means unsafe.</li>
+        <li>Installing your vault on devices you don't trust.</li>
+      </ul>
+    </div>
+    <p class="related"><strong>Related:</strong> Password Manager Comparison, Browser-Saved Passwords</p>
+  </section>
+
+  <!-- LESSON 4 -->
+  <section class="lesson" id="lesson-4">
+    <h2>Moving Your Passwords Safely</h2>
+    <p class="lesson-meta">Lesson 4 of 6</p>
+    <p>By now you understand why remembering every password isn't realistic, what a password manager does, and how to choose one that fits your life. Now comes the first practical step: moving your passwords into it.</p>
+    <p>This is the point where many people feel overwhelmed — they imagine they have to fix every account in one evening. You do not. The safe way is slow, calm and practical.</p>
+    <h3>Do not move everything at once</h3>
+    <p>Your digital life probably took years to become messy. It doesn't need to be cleaned up in one day. Start with the accounts that matter most — once those are safe, everything else becomes easier.</p>
+    <h3>Start with your email account</h3>
+    <p>Your email is usually the most important account you own. Why? Because many other websites use your email to reset passwords. If someone gets access to your email, they may be able to take over other accounts too. So the first password to improve is usually your main email password.</p>
+    <h3>Then protect your most important accounts</h3>
+    <p>After email, move slowly through the accounts that could cause the most stress if you lost them: email accounts, banking and payment accounts, government or identity accounts, cloud storage, phone account/Apple ID/Google account, social media, and shopping accounts where payment details are saved.</p>
+    <h3>Change passwords as you save them</h3>
+    <p>When you add an account to your password manager, this is a good moment to change that password. Let the password manager create a long, random password for you — you don't need to remember it, that's the point.</p>
+    <h3>Keep your old system for a short time</h3>
+    <p>If you have passwords written somewhere, don't destroy that list immediately. First make sure your new password manager works, that you can log in again, and that your recovery information is safe — then you can slowly clean up the old list.</p>
+    <h3>Be careful with browser-saved passwords</h3>
+    <p>Many people already have passwords saved in Chrome, Edge, Firefox, Brave or Safari — that's not automatically bad, it's better than using the same password everywhere. If you decide to use a dedicated password manager, don't rush to delete anything; move your passwords carefully, check that everything works, and only then clean up later.</p>
+
+    <div class="action-box">
+      <h4>What you can do today</h4>
+      <ul>
+        <li>Open your password manager.</li>
+        <li>Add your main email account.</li>
+        <li>Change the email password to a strong unique password.</li>
+        <li>Make sure you can log out and log back in.</li>
+        <li>Don't try to fix everything today.</li>
+      </ul>
+    </div>
+    <div class="mistake-box">
+      <h4>Common mistakes</h4>
+      <ul>
+        <li>Trying to move every account in one evening.</li>
+        <li>Deleting old password notes before checking the new setup.</li>
+        <li>Forgetting to save recovery information.</li>
+        <li>Changing passwords but not testing whether you can log in again.</li>
+        <li>Starting with unimportant accounts while your email is still weak.</li>
+      </ul>
+    </div>
+    <p class="related"><strong>Related:</strong> Browser-Saved Passwords, Backup Codes Explained</p>
+  </section>
+
+  <!-- LESSON 5 -->
+  <section class="lesson" id="lesson-5">
+    <h2>Two-Factor Authentication Explained</h2>
+    <p class="lesson-meta">Lesson 5 of 6</p>
+    <p>A strong password is important, but sometimes a password alone isn't enough. Passwords can be leaked, guessed, reused, stolen by phishing, or typed into a fake login page by accident. That's why many accounts offer something called two-factor authentication, often shortened to 2FA.</p>
+    <h3>What does 2FA mean?</h3>
+    <p>Two-factor authentication means you need two things to log in: something you know, like your password, and something you have, like your phone, an authenticator app, or a security key. Think of it like your front door — a password is the key, 2FA adds a second lock.</p>
+    <h3>Why does this help?</h3>
+    <p>If someone steals your password, they still may not be able to log in because they also need the second step. This is especially important for your email, password manager, social media, banking, cloud storage and work accounts.</p>
+    <h3>Common types of 2FA</h3>
+    <p><strong>Authenticator apps</strong> — create a short code that changes every few seconds. Usually a good option for beginners: free, and works on many services.</p>
+    <p><strong>Push notifications</strong> — some services send a notification to your phone asking if you're trying to log in. Convenient, but only approve login requests that you started yourself.</p>
+    <p><strong>SMS codes</strong> — sent by text message. Not the strongest form of 2FA, but still better than no second step at all.</p>
+    <p><strong>Security keys</strong> — a physical key such as a YubiKey is one of the strongest options, but costs money and needs more setup. Good to know it exists; you don't need to start there.</p>
+    <h3>Do not forget recovery codes</h3>
+    <p>When you enable 2FA, many services give you recovery codes. These can help you get back into your account if you lose your phone or authenticator app — save them somewhere safe, don't ignore them.</p>
+
+    <div class="action-box">
+      <h4>What you can do today</h4>
+      <ul>
+        <li>Turn on 2FA for your main email account.</li>
+        <li>Save the recovery codes safely.</li>
+        <li>Then turn on 2FA for your password manager.</li>
+        <li>After that, protect your most important social media and cloud accounts.</li>
+      </ul>
+    </div>
+    <div class="mistake-box">
+      <h4>Common mistakes</h4>
+      <ul>
+        <li>Turning on 2FA but not saving recovery codes.</li>
+        <li>Approving login notifications you didn't request.</li>
+        <li>Thinking SMS is perfect security.</li>
+        <li>Buying a security key before understanding the basics.</li>
+        <li>Only protecting unimportant accounts while email stays unprotected.</li>
+      </ul>
+    </div>
+    <p class="related"><strong>Related:</strong> Authenticator Apps Explained, SMS vs Authenticator Apps, Backup Codes Explained, Lost Your Phone?</p>
+  </section>
+
+  <!-- LESSON 6 -->
+  <section class="lesson" id="lesson-6">
+    <h2>Securing Your Email Account</h2>
+    <p class="lesson-meta">Lesson 6 of 6</p>
+    <p>If you only protect one account properly, protect your email. Your email is not just a place where messages arrive — it's often the recovery door for the rest of your digital life. When you forget a password, where does the reset link go? Usually to your email.</p>
+    <h3>Your email is your digital identity</h3>
+    <p>Many websites trust your email address. Shopping accounts, social media, cloud storage, banks, government websites and apps often use it to confirm who you are. If someone gets into your email, they may be able to reset passwords for other accounts too — that's why email security matters so much.</p>
+    <h3>Use a strong unique password</h3>
+    <p>Your email password should not be reused anywhere else. It should be long, unique and saved in your password manager. If you've used the same email password on other websites, changing it should be one of your first digital hygiene tasks.</p>
+    <h3>Turn on 2FA</h3>
+    <p>Your email account should have two-factor authentication enabled — even if someone learns your password, they still need the second step to log in. Save the recovery codes when you set this up; they're not optional, they're your backup plan.</p>
+    <h3>Check your recovery options</h3>
+    <p>Email accounts usually have recovery options such as a backup email address or phone number. Make sure these are still yours and up to date — an old phone number or forgotten recovery email can become a real problem when you need to recover your account.</p>
+    <h3>Review active sessions</h3>
+    <p>Many email providers show where your account is currently logged in. Look for old phones, old laptops, unknown locations or devices you no longer use — if something looks strange, sign it out and change your password.</p>
+    <h3>Be careful with reset emails</h3>
+    <p>Password reset emails are powerful — anyone who controls your email can often control other accounts. Don't click reset links you didn't request. If something looks suspicious, go directly to the website yourself instead of clicking the email.</p>
+
+    <div class="action-box">
+      <h4>What you can do today</h4>
+      <ul>
+        <li>Change your main email password to a strong unique password.</li>
+        <li>Save it in your password manager.</li>
+        <li>Turn on 2FA.</li>
+        <li>Save your recovery codes.</li>
+        <li>Check that your recovery phone number and recovery email are correct.</li>
+        <li>Review devices and sessions that are logged in.</li>
+      </ul>
+    </div>
+    <div class="mistake-box">
+      <h4>Common mistakes</h4>
+      <ul>
+        <li>Reusing your email password on other websites.</li>
+        <li>Not enabling 2FA on email.</li>
+        <li>Ignoring recovery codes.</li>
+        <li>Keeping an old phone number as recovery information.</li>
+        <li>Clicking password reset links you didn't request.</li>
+      </ul>
+    </div>
+    <p class="related"><strong>Related:</strong> Email Aliases Explained, Backup Codes Explained, Lost Your Phone?</p>
+  </section>
+
+  <div class="lesson-nav">
+    <button id="prev-btn">← Previous lesson</button>
+    <button id="next-btn">Next lesson →</button>
+  </div>
+</div>
+
+<footer>error-404.cc — digital hygiene, one lesson at a time</footer>
+
+<script>
+  const pills = document.querySelectorAll('.lesson-pill');
+  const lessons = document.querySelectorAll('.lesson');
+  const prevBtn = document.getElementById('prev-btn');
+  const nextBtn = document.getElementById('next-btn');
+  const total = lessons.length;
+  let current = 1;
+
+  function showLesson(n){
+    current = n;
+    pills.forEach(p => p.classList.toggle('active', parseInt(p.dataset.lesson) === n));
+    lessons.forEach(l => l.classList.toggle('active', l.id === 'lesson-' + n));
+    prevBtn.disabled = n === 1;
+    nextBtn.disabled = n === total;
+    window.scrollTo({ top: document.querySelector('.rule').offsetTop - 80, behavior: 'smooth' });
+  }
+
+  pills.forEach(p => p.addEventListener('click', () => showLesson(parseInt(p.dataset.lesson))));
+  prevBtn.addEventListener('click', () => { if (current > 1) showLesson(current - 1); });
+  nextBtn.addEventListener('click', () => { if (current < total) showLesson(current + 1); });
+</script>
+</body>
+</html>
