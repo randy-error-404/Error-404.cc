@@ -57,20 +57,38 @@ jobs:
               s = p.read_text()
               if 'id="global-brand-text"' in s:
                   continue
-
               pattern = r'(<div class="brand"><span class="caret">&gt;</span>\s*)([^<]+)(</div>)'
               match = re.search(pattern, s)
               if not match:
                   raise SystemExit(f'Expected brand markup not found in {filename}; refusing to modify the build.')
-
               replacement = match.group(1) + f'<span id="global-brand-text" data-text="{text}"></span><span class="global-brand-cursor">▊</span>' + match.group(3)
               s = s[:match.start()] + replacement + s[match.end():]
-
-              if '</style>' not in s or '</body>' not in s:
-                  raise SystemExit(f'Expected HTML structure not found in {filename}; refusing to modify the build.')
               s = s.replace('</style>', css + '</style>', 1)
               s = s.replace('</body>', script_template + '</body>', 1)
               p.write_text(s)
+          PY
+      - name: Move Now into Whoami
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          p = Path('work/index.html')
+          s = p.read_text()
+          if 'class="now-inline"' in s:
+              raise SystemExit(0)
+          match = re.search(r'<section id="now"([^>]*)>(.*?)</section>', s, re.S)
+          if not match:
+              raise SystemExit('Now section not found; refusing to modify the build.')
+          now_inner = match.group(2)
+          inline = '<div id="now" class="now-inline"' + match.group(1) + '>' + now_inner + '</div>'
+          s = s[:match.start()] + s[match.end():]
+          s = re.sub(r'<button class="tab-btn" data-tab="now">now</button>', '', s, count=1)
+          projects = re.search(r'<h2[^>]*>\s*projects\s*</h2>', s, re.I)
+          if not projects:
+              raise SystemExit('Projects heading not found; refusing to modify the build.')
+          s = s[:projects.start()] + inline + s[projects.start():]
+          s = s.replace('</style>', '\n  .now-inline{display:block;padding-bottom:20px;}\n' + '</style>', 1)
+          p.write_text(s)
           PY
       - name: Upload site
         uses: actions/upload-pages-artifact@v3
